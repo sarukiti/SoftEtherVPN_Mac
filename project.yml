@@ -1,0 +1,64 @@
+name: SoftEtherFethVPN
+options:
+  bundleIdPrefix: org.softether.feth
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Manual
+    # 自己署名証明書の CN。create-signing-cert.sh で作成する。
+    # コンパイル確認だけなら xcodebuild 引数で CODE_SIGNING_ALLOWED=NO 等を上書き可。
+    CODE_SIGN_IDENTITY: "SoftEther VPN Local"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: YES
+    GENERATE_INFOPLIST_FILE: YES
+
+targets:
+  # ---- メインアプリ（非特権・メニューバー常駐）----
+  SoftEtherFethVPN:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+      - path: Shared
+      - path: Helper/org.softether.feth.helper.plist
+        buildPhase:
+          copyFiles:
+            destination: wrapper
+            subpath: Contents/Library/LaunchDaemons
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.softether.feth.client
+        PRODUCT_NAME: SoftEtherFethVPN
+        INFOPLIST_KEY_LSUIElement: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "SoftEther VPN"
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+    dependencies:
+      - target: SoftEtherVPNHelper
+        embed: true
+        link: false
+        copy:
+          destination: wrapper
+          subpath: Contents/Library/LaunchDaemons
+
+  # ---- 特権ヘルパーデーモン（root・command line tool）----
+  SoftEtherVPNHelper:
+    type: tool
+    platform: macOS
+    sources:
+      - path: Helper
+        excludes:
+          - "org.softether.feth.helper.plist"
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: org.softether.feth.helper
+        PRODUCT_NAME: SoftEtherVPNHelper
+        # command line tool に Info.plist を __TEXT,__info_plist として埋め込み、
+        # コード署名 identifier を安定させる（= org.softether.feth.helper）。
+        CREATE_INFOPLIST_SECTION_IN_BINARY: YES

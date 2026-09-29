@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>org.softether.feth.helper</string>
+    <!-- アプリバンドル相対。Copy Files で Contents/Library/LaunchDaemons に配置される実行体。 -->
+    <key>BundleProgram</key>
+    <string>Contents/Library/LaunchDaemons/SoftEtherVPNHelper</string>
+    <key>MachServices</key>
+    <dict>
+        <key>org.softether.feth.helper</key>
+        <true/>
+    </dict>
+    <!-- このデーモンを所有するアプリ。System Settings の Login Items 表示に使われる。 -->
+    <key>AssociatedBundleIdentifiers</key>
+    <array>
+        <string>org.softether.feth.client</string>
+    </array>
+</dict>
+</plist>
