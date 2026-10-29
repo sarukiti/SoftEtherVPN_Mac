@@ -19,6 +19,14 @@ enum ProxyStore {
         UserDefaults.standard.set(c.jsonString(), forKey: VPNDefaults.proxyConfigKey)
     }
 
+    /// ユーザーが最後に選んだ ON/OFF。接続時の同期はこれに従う。
+    static func loadEnabled() -> Bool {
+        UserDefaults.standard.object(forKey: VPNDefaults.proxyEnabledKey) as? Bool ?? true
+    }
+    static func saveEnabled(_ on: Bool) {
+        UserDefaults.standard.set(on, forKey: VPNDefaults.proxyEnabledKey)
+    }
+
     // MARK: パスワード（Keychain）
 
     static func loadPassword() -> String {

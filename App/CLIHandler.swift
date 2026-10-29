@@ -89,9 +89,9 @@ enum CLIHandler {
                 }
             }
 
-            // 2) 保存されたプロキシ設定があれば同期
+            // 2) 保存されたプロキシ設定があり、ON なら同期
             let proxy = ProxyStore.loadConfig()
-            if proxy.isUsable {
+            if proxy.isUsable && ProxyStore.loadEnabled() {
                 let pass = ProxyStore.loadPassword()
                 log("[CLI] プロキシ設定を適用中: \(proxy.type)://\(proxy.host):\(proxy.port)...")
                 do {

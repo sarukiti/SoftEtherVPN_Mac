@@ -274,8 +274,8 @@ final class AppModel: ObservableObject {
                 }
             }
 
-            // 2. プロキシ設定の同期（プロキシ保存時は確実に適用、未設定時はDirectに）
-            if proxyConfig.isUsable {
+            // 2. プロキシ設定の同期（保存済みかつ ON なら確実に適用、未設定または OFF なら Direct に）
+            if proxyConfig.isUsable && ProxyStore.loadEnabled() {
                 let targetDesc = "\(proxyConfig.type) \(proxyConfig.host):\(proxyConfig.port)"
                 let latestStatus = try? await helper.privilegedStatus(account: account)
                 if latestStatus?.proxyDescription != targetDesc {
@@ -315,6 +315,7 @@ final class AppModel: ObservableObject {
         let cfg = ProxyConfig(type: type, host: host, port: port, user: user)
         ProxyStore.saveConfig(cfg)
         ProxyStore.savePassword(pass)
+        ProxyStore.saveEnabled(true)
         proxyConfig = cfg
         Task {
             do {
@@ -369,6 +370,7 @@ final class AppModel: ObservableObject {
         let cfg = proxyConfig
         guard cfg.isUsable else { lastMessage = "プロキシ設定が未保存です。「設定…」から保存してください。"; return }
         let pass = ProxyStore.loadPassword()
+        ProxyStore.saveEnabled(true)
         perform("プロキシ ON") { [account, helper] in
             try await helper.setProxy(type: cfg.type, host: cfg.host, port: cfg.port,
                                       user: cfg.user, pass: pass, account: account)
@@ -376,7 +378,9 @@ final class AppModel: ObservableObject {
     }
 
     /// アカウントのプロキシをオフ（直接接続）。保存済み設定は消さない。
+    /// OFF は保存し、次に接続し直しても OFF のままにする。
     func clearProxy() {
+        ProxyStore.saveEnabled(false)
         perform("プロキシをオフ") { [account, helper] in
             try await helper.clearProxy(account: account)
         }

@@ -42,6 +42,7 @@ public enum VPNDefaults {
     public static let accountKey = "vpn.account"
     public static let defaultAccount = "vpngate"
     public static let proxyConfigKey = "vpn.proxy.config"   // ProxyConfig の JSON（パスワードは除く）
+    public static let proxyEnabledKey = "vpn.proxy.enabled" // ON/OFF。未保存なら ON 扱い（従来どおり）
     public static let vpnConfigKey = "vpn.account.config"   // VpnAccountConfig の JSON（パスワードは除く）
 }
 
