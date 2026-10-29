@@ -1,7 +1,7 @@
 #!/bin/sh
 # 自己署名のコード署名証明書を作成し、login キーチェーンに取り込む。
 # SMAppService のデーモン登録と XPC の署名要件（CN 一致）に必要。有料 Developer ID は不要。
-# 実行: sh macos/create-signing-cert.sh
+# 実行: sh create-signing-cert.sh
 set -e
 
 CN="SoftEther VPN Local"

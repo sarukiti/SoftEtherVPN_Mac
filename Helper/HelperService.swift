@@ -2,10 +2,7 @@
 // 直列キューで実行し、競合を避ける。
 
 import Foundation
-import os
 import SystemConfiguration
-
-let helperLog = Logger(subsystem: "org.softether.feth.helper", category: "ops")
 
 /// 全 XPC 接続とウォッチドッグで共有する操作キュー。HelperService は接続ごとに
 /// 生成されるため、キューをインスタンスに持たせると接続間で操作が直列化されない。

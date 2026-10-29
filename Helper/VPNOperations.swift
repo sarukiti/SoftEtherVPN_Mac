@@ -127,12 +127,12 @@ enum VPNOperations {
 
     static func connect(account: String) -> (Bool, String) {
         var log = ""
-        
+
         // vpnclient の起動と常駐を確認
         if !startVpnClientIfNeeded() {
             return (false, "vpnclient の起動に失敗しました。")
         }
-        
+
         // ウォッチドッグがプロキシ切替の対象アカウントを知るために保存
         writeState(activeAccountFile, account)
         log += selectProxyMode(account: account)
@@ -363,7 +363,6 @@ enum VPNOperations {
         // down 用に保存
         writeState("phys_if", physIF)
         writeState("svc", svc)
-        writeState("server_ips", exceptionIPs.sorted().joined(separator: "\n"))
         writeState(savedHostRoutesFile, exceptionIPs.sorted().joined(separator: "\n"))
 
         log += "iface=\(feth) feth_ip=\(fethIP) vpn_gw=\(vpnGW) phys_gw=\(physGW) phys_if=\(physIF) svc=\(svc)\n"
@@ -440,12 +439,11 @@ enum VPNOperations {
             .map { $0.split(separator: " ", omittingEmptySubsequences: true).map(String.init) }
             .filter { $0.count >= 4 && $0[2].contains("G") && $0[2].contains("H") && $0[2].contains("S") }
             .map { $0[0] })
-        let savedRoutes = (readState(savedHostRoutesFile) + "\n" + readState("server_ips")).lines().filter { !$0.isEmpty }
+        let savedRoutes = readState(savedHostRoutesFile).lines().filter { !$0.isEmpty }
         for ip in Set(savedRoutes) where isValidIPv4(ip) && staticHostRoutes.contains(ip) {
             _ = Shell.run(route, ["-n", "delete", "-host", ip])
         }
         removeState(savedHostRoutesFile)
-        removeState("server_ips")
         pinHosts([])
 
         // フルトンネルを張っていなかったなら、DNS/プロキシは元々いじっていないので復元しない
@@ -567,9 +565,7 @@ enum VPNOperations {
            !isOnLink(dhcpServer, iface: physIF) {
             // ローミング等で DHCP サーバが変わった場合も追従し、down で掃除されるよう保存する
             exceptionIPs.insert(dhcpServer)
-            let saved = exceptionIPs.sorted().joined(separator: "\n")
-            writeState(savedHostRoutesFile, saved)
-            writeState("server_ips", saved)
+            writeState(savedHostRoutesFile, exceptionIPs.sorted().joined(separator: "\n"))
         }
         // 別ネットワークにいた時に張った例外が、戻ってきたネットワークではオンリンク（GW 自身など）に
         // なることがある。"192.168.100.1 → 旧GW" のような経路が残ると GW に届かず物理回線ごと死ぬので消す。
@@ -661,7 +657,7 @@ enum VPNOperations {
                          account: String) -> (Bool, String) {
         guard type == "http" || type == "socks" else { return (false, "unknown proxy type: \(type)") }
         guard !host.isEmpty, !port.isEmpty else { return (false, "host/port が空です") }
-        
+
         _ = startVpnClientIfNeeded()
 
         // アカウント再作成をまたいで生き残るよう退避（type|host|port|user|pass の5行固定）
@@ -789,12 +785,7 @@ enum VPNOperations {
         return ips.contains { Shell.run(nc, ["-z", "-G", "3", $0, port], timeout: 6).ok }
     }
 
-    /// アカウントの接続先 VPN サーバの IP。解決できない時は前回の値。
-    private static func vpnServerIPs(account: String) -> [String] {
-        vpnServer(account: account).ips
-    }
-
-    /// アカウントの接続先 VPN サーバのホスト名と IP。
+    /// アカウントの接続先 VPN サーバのホスト名と IP。IP が解決できない時は前回の値。
     private static func vpnServer(account: String) -> (host: String, ips: [String]) {
         let cfg = Shell.out(vpncmd, ["/CLIENT", "127.0.0.1", "/CMD", "AccountGet", account], timeout: 15)
         let host = cfg.lines().first { $0.contains("Destination VPN Server Host Name") }?
@@ -841,7 +832,7 @@ enum VPNOperations {
         // セッション状態（AccountStatusGet）
         let st = Shell.out(vpncmd, ["/CLIENT", "127.0.0.1", "/CMD", "AccountStatusGet", account], timeout: 15)
         if st.isEmpty {
-            return PrivilegedStatus(raw: "(取得失敗: vpnclient 未起動 / 管理接続不可)")
+            return PrivilegedStatus()   // vpnclient 未起動 / 管理接続不可
         }
         // "Session Status | Retrying" のように | 区切り。値側を取る。
         func field(_ text: String, _ key: String) -> String {
@@ -886,7 +877,7 @@ enum VPNOperations {
         return PrivilegedStatus(sessionEstablished: established, sessionStatus: sessionStatus,
                                 serverName: serverName, serverHost: serverHost,
                                 proxyDescription: proxyDescription,
-                                proxyFallbackDirect: proxyFallbackDirect, raw: "")
+                                proxyFallbackDirect: proxyFallbackDirect)
     }
 
     // MARK: - 接続判定（軽量・root 必須）
@@ -996,7 +987,7 @@ enum VPNOperations {
     static func setupVpnAccount(account: String, server: String, port: String, hub: String, username: String, pass: String, authType: String) -> (Bool, String) {
         var log = ""
         HLog("setupVpnAccount: 開始")
-        
+
         // 1. vpnclient の起動と常駐を確認
         if !startVpnClientIfNeeded() {
             HLog("setupVpnAccount: vpnclient の起動に失敗")
@@ -1012,9 +1003,9 @@ enum VPNOperations {
             HLog("setupVpnAccount: アカウント \(account) を削除しました")
             return (true, "接続アカウント \(account) を削除しました。")
         }
-        
+
         let nicName = "feth"
-        
+
         // 2. 仮想NICの確認（既に存在していれば無駄な削除・再作成を避けて再利用する）
         let nicList = Shell.out(vpncmd, ["/CLIENT", "127.0.0.1", "/CMD", "NicList"])
         let nicExistsInVpnClient = nicList.contains(nicName)
@@ -1037,26 +1028,26 @@ enum VPNOperations {
         } else {
             HLog("setupVpnAccount: 既存の仮想NIC \(nicName) を再利用します")
         }
-        
+
         // 3. アカウントの重複削除
         let accountList = Shell.out(vpncmd, ["/CLIENT", "127.0.0.1", "/CMD", "AccountList"])
         if accountList.contains(account) {
             HLog("setupVpnAccount: 既存のアカウント \(account) を更新のため一度削除")
             _ = Shell.run(vpncmd, ["/CLIENT", "127.0.0.1", "/CMD", "AccountDelete", account])
         }
-        
+
         // 4. アカウント新規作成
         HLog("setupVpnAccount: アカウント作成試行: \(account) server=\(server):\(port)")
         let createRes = Shell.run(vpncmd, [
             "/CLIENT", "127.0.0.1", "/CMD", "AccountCreate", account,
             "/SERVER:\(server):\(port)", "/HUB:\(hub)", "/USERNAME:\(username)", "/NICNAME:\(nicName)"
         ])
-        
+
         guard createRes.ok else {
             HLog("setupVpnAccount: アカウント作成失敗: \(createRes.stderr)")
             return (false, "アカウントの作成に失敗しました: \(createRes.stderr)")
         }
-        
+
         // 5. 認証情報設定
         if authType.lowercased() == "anonymous" {
             HLog("setupVpnAccount: 匿名認証を設定")
@@ -1086,7 +1077,7 @@ enum VPNOperations {
         HLog("stopVpnClient: 停止とクリーンアップを開始")
         _ = Shell.run(vpnclient, ["stop"], timeout: 5)
         _ = Shell.run(killall, ["-9", "vpnclient"], timeout: 5)
-        
+
         let fm = FileManager.default
 
         // 1. stateDir 内の古い .ctl_* や .pid_* をクリーンアップ
@@ -1120,32 +1111,32 @@ enum VPNOperations {
     /// 必要に応じて vpnclient デーモンを起動する
     static func startVpnClientIfNeeded() -> Bool {
         HLog("startVpnClientIfNeeded: 開始 (stateDir=\(stateDir))")
-        
+
         // 1. stateDir の作成とシンボリックリンクの準備
         ensureStateDirBinaries()
-        
+
         // 2. すでに vpnclient が正常に起動してコマンド応答するか確認
         if isVpnClientRunning() {
             HLog("startVpnClientIfNeeded: vpnclient は既に正常稼働中")
             return true
         }
-        
+
         // 3. 正常応答しない場合、古いプロセスや壊れたロックファイルの残骸がある可能性があるため停止・掃除
         HLog("startVpnClientIfNeeded: vpnclient が応答しないため、停止・クリーンアップ後に新規起動します")
         stopVpnClient()
-        
+
         // 4. stateDir をカレントディレクトリとして vpnclient をバックグラウンド起動
         HLog("startVpnClientIfNeeded: vpnclient 起動試行: \(vpnclient) start")
         let process = Process()
         process.executableURL = URL(fileURLWithPath: vpnclient)
         process.arguments = ["start"]
         process.currentDirectoryURL = URL(fileURLWithPath: stateDir)
-        
+
         do {
             try process.run()
             process.waitUntilExit()
             HLog("startVpnClientIfNeeded: process.run() 完了、終了コード = \(process.terminationStatus)")
-            
+
             // 起動・初期化完了を最大 15 秒間ポーリングして待つ (30 x 0.5s)
             for i in 1...30 {
                 Thread.sleep(forTimeInterval: 0.5)

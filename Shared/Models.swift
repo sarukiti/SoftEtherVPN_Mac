@@ -10,18 +10,16 @@ public struct PrivilegedStatus: Codable, Equatable {
     public var serverHost: String      // 接続先ホスト（AccountGet 由来, 例 public-vpn-129.opengw.net:443）
     public var proxyDescription: String // 実際のプロキシ設定（AccountGet 由来, 例 "http proxy.example.com:8080" / "なし"）
     public var proxyFallbackDirect: Bool // プロキシ不達のため一時的に直接接続中
-    public var raw: String             // 取得失敗時の生メッセージ等
 
     public init(sessionEstablished: Bool = false, sessionStatus: String = "",
                 serverName: String = "", serverHost: String = "",
-                proxyDescription: String = "—", proxyFallbackDirect: Bool = false, raw: String = "") {
+                proxyDescription: String = "—", proxyFallbackDirect: Bool = false) {
         self.sessionEstablished = sessionEstablished
         self.sessionStatus = sessionStatus
         self.serverName = serverName
         self.serverHost = serverHost
         self.proxyDescription = proxyDescription
         self.proxyFallbackDirect = proxyFallbackDirect
-        self.raw = raw
     }
 
     public func jsonString() -> String {
@@ -33,7 +31,7 @@ public struct PrivilegedStatus: Codable, Equatable {
     public static func from(json: String) -> PrivilegedStatus {
         guard let d = json.data(using: .utf8),
               let v = try? JSONDecoder().decode(PrivilegedStatus.self, from: d) else {
-            return PrivilegedStatus(raw: json)
+            return PrivilegedStatus()
         }
         return v
     }

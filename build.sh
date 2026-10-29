@@ -1,7 +1,7 @@
 #!/bin/sh
 # プロジェクト生成 → 署名付きビルド → .app を dist/ に配置。
-# 前提: macos/create-signing-cert.sh で "SoftEther VPN Local" を作成済みであること。
-# 実行: sh macos/build.sh
+# 前提: create-signing-cert.sh で "SoftEther VPN Local" を作成済みであること。
+# 実行: sh build.sh
 set -e
 set -o pipefail
 cd "$(dirname "$0")"
@@ -10,11 +10,13 @@ IDENTITY="SoftEther VPN Local"
 # 既定 Release。Debug は .debug.dylib を生成し、自己署名(Team ID なし)だと
 # "different Team IDs" で起動失敗するため。
 CONFIG="${1:-Release}"
+# 第 1 引数に --install だけ渡された場合は Release でビルドしてインストールする
+if [ "$CONFIG" = "--install" ]; then CONFIG=Release; set -- Release --install; fi
 
 FOUND_HASH=$(security find-identity -v -p codesigning 2>/dev/null | grep "$IDENTITY" | head -n 1 | awk '{print $2}')
 
 if [ -z "$FOUND_HASH" ]; then
-  echo "!!! コード署名 identity '$IDENTITY' がありません。先に:  sh macos/create-signing-cert.sh"
+  echo "!!! コード署名 identity '$IDENTITY' がありません。先に:  sh create-signing-cert.sh"
   exit 1
 fi
 
@@ -102,7 +104,7 @@ echo "### 同梱ヘルパー/plist"
 ls -l "dist/SoftEtherFethVPN.app/Contents/Library/LaunchDaemons/" 2>&1
 echo
 echo "### 完了 -> $(pwd)/dist/SoftEtherFethVPN.app"
-if [ "$INSTALL_TO_APPLICATIONS" = "1" ] || [ "$2" = "--install" ] || [ "$CONFIG" = "--install" ]; then
+if [ "$INSTALL_TO_APPLICATIONS" = "1" ] || [ "$2" = "--install" ]; then
   echo "### /Applications/SoftEtherFethVPN.app にインストール中..."
   killall SoftEtherFethVPN 2>/dev/null || true
   rm -rf /Applications/SoftEtherFethVPN.app

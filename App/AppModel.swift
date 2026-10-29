@@ -145,7 +145,7 @@ final class AppModel: ObservableObject {
                 privileged = status
                 proxyDescription = privileged.proxyDescription   // ← 実態をライブ反映
             } catch {
-                privileged = .init(raw: "(状態取得不可: \(error.localizedDescription))")
+                privileged = .init()
             }
         }
     }
