@@ -51,14 +51,34 @@ final class AppModel: ObservableObject {
     private var iconTimer: Timer?
     private var didPromptUpdate = false   // 自動アラートは1セッション1回まで（連打防止）
     private var didAutoRepairHelper = false // 起動時の自動再登録試行は1セッション1回まで
+    private var settingsWindow: NSWindow?
+    private var contextMenu: StatusItemContextMenu?
 
     init() {
         helperState = helper.registration
         proxyConfig = ProxyStore.loadConfig()
         vpnConfig = VpnStore.loadConfig()
         startIconTimer()
+        contextMenu = StatusItemContextMenu(model: self)
         Task { await refreshFull() }
     }
+
+    // MARK: 設定ウィンドウ（パネルが閉じても残る独立ウィンドウ。右クリックメニューからも開くので AppKit で持つ）
+
+    func openSettings() {
+        if settingsWindow == nil {
+            let w = NSWindow(contentViewController: NSHostingController(rootView: ProxySettingsView().environmentObject(self)))
+            w.title = "設定"
+            w.styleMask = [.titled, .closable]
+            w.isReleasedWhenClosed = false
+            w.center()
+            settingsWindow = w
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        settingsWindow?.makeKeyAndOrderFront(nil)
+    }
+
+    func closeSettings() { settingsWindow?.close() }
 
     // MARK: アイコン用の軽量タイマー（root 不要の項目だけ・約5秒）
 
@@ -286,8 +306,6 @@ final class AppModel: ObservableObject {
             return (ok2, msg + "\n" + msg2)
         }
     }
-    func enableFullTunnel() { perform("フルトンネル ON") { [helper] in try await helper.enableFullTunnel() } }
-    func disableFullTunnel() { perform("フルトンネル OFF") { [helper] in try await helper.disableFullTunnel() } }
     func disconnect() { perform("VPN 切断") { [account, helper] in try await helper.disconnect(account: account) } }
 
     /// 設定を保存（UserDefaults + Keychain）してからアカウントへ適用する。

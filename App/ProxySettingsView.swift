@@ -1,4 +1,4 @@
-// 設定。独立した通常ウィンドウ（Window scene）の中身として使う。
+// 設定。独立した通常ウィンドウ（AppModel.openSettings が開く NSWindow）の中身として使う。
 // MenuBarExtra のパネルはフォーカスを失うと閉じる仕様なので、設定は別ウィンドウに出す。
 // 値はそのまま XPC の引数配列で渡る（シェル展開なし）ので特殊文字の制限はない。
 
@@ -6,7 +6,6 @@ import SwiftUI
 
 struct ProxySettingsView: View {
     @EnvironmentObject var model: AppModel
-    @Environment(\.dismiss) private var dismiss
 
     // Tab 選択用
     @State private var selectedTab = 0
@@ -93,13 +92,13 @@ struct ProxySettingsView: View {
 
             HStack {
                 Spacer()
-                Button("キャンセル") { dismiss() }
+                Button("キャンセル") { model.closeSettings() }
                 Button("保存して適用") {
                     model.saveAndApplyProxy(type: proxyType,
                                             host: proxyHost.trimmingCharacters(in: .whitespaces),
                                             port: proxyPort.trimmingCharacters(in: .whitespaces),
                                             user: proxyUser, pass: proxyPass)
-                    dismiss()
+                    model.closeSettings()
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(proxyHost.isEmpty || proxyPort.isEmpty)
@@ -140,7 +139,7 @@ struct ProxySettingsView: View {
 
             Text("設定を保存すると、VPNアカウント情報が自動的に作成・上書きされ、")
                 .font(.caption).foregroundStyle(.secondary)
-            Text("「接続してフルトンネル」からその設定で接続できるようになります。")
+            Text("「接続」からその設定で接続できるようになります。")
                 .font(.caption).foregroundStyle(.secondary)
 
             Spacer()
@@ -149,13 +148,13 @@ struct ProxySettingsView: View {
                 if model.vpnConfig.isUsable {
                     Button("設定を消去") {
                         model.clearVpnAccount()
-                        dismiss()
+                        model.closeSettings()
                     }
                     .buttonStyle(.bordered)
                     .foregroundStyle(.red)
                 }
                 Spacer()
-                Button("キャンセル") { dismiss() }
+                Button("キャンセル") { model.closeSettings() }
                 Button("保存して適用") {
                     model.saveAndApplyVpnAccount(
                         server: vpnServer.trimmingCharacters(in: .whitespaces),
@@ -165,7 +164,7 @@ struct ProxySettingsView: View {
                         pass: vpnPass,
                         authType: vpnAuthType
                     )
-                    dismiss()
+                    model.closeSettings()
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(vpnServer.isEmpty || vpnPort.isEmpty || vpnHub.isEmpty || (vpnAuthType == "password" && vpnUser.isEmpty))

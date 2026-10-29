@@ -4,7 +4,6 @@ import SwiftUI
 
 struct MenuBarContentView: View {
     @EnvironmentObject var model: AppModel
-    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -18,9 +17,6 @@ struct MenuBarContentView: View {
             } else {
                 controls
             }
-
-            Divider()
-            footer
         }
         .frame(width: 320)
         .onAppear { Task { await model.refreshFull() } }
@@ -94,8 +90,7 @@ struct MenuBarContentView: View {
                     Text("VPN設定が未登録です").font(.caption)
                     Spacer()
                     Button("設定…") {
-                        NSApp.activate(ignoringOtherApps: true)
-                        openWindow(id: "proxy-settings")
+                        model.openSettings()
                     }
                     .font(.caption)
                 }
@@ -103,25 +98,17 @@ struct MenuBarContentView: View {
                 .background(Color.red.opacity(0.08), in: RoundedRectangle(cornerRadius: 6))
             }
 
-            // 大きな主トグル
+            // 大きな主トグル: 未接続なら接続（フルトンネル込み）、接続中なら切断
             Button {
-                if model.tunnel == .fullTunnel { model.disableFullTunnel() }
-                else { model.connectAndFullTunnel() }
+                if model.tunnel == .disconnected { model.connectAndFullTunnel() }
+                else { model.disconnect() }
             } label: {
-                Text(model.tunnel == .fullTunnel ? "フルトンネルを切る" : "接続してフルトンネル")
+                Text(model.tunnel == .disconnected ? "接続" : "VPN 切断")
                     .frame(maxWidth: .infinity)
             }
             .controlSize(.large)
             .buttonStyle(.borderedProminent)
-            .disabled(model.busy || (model.tunnel != .fullTunnel && !model.vpnConfig.isUsable))
-
-            HStack(spacing: 8) {
-                Button("フルトンネル ON") { model.enableFullTunnel() }
-                    .frame(maxWidth: .infinity)
-                    .disabled(model.busy || !model.vpnConfig.isUsable)
-                Button("VPN 切断") { model.disconnect() }
-                    .frame(maxWidth: .infinity).disabled(model.busy)
-            }
+            .disabled(model.busy || (model.tunnel == .disconnected && !model.vpnConfig.isUsable))
 
             Divider().padding(.vertical, 2)
 
@@ -138,52 +125,17 @@ struct MenuBarContentView: View {
             }
             HStack(spacing: 8) {
                 Button("設定…") {
-                    NSApp.activate(ignoringOtherApps: true)
-                    openWindow(id: "proxy-settings")
+                    model.openSettings()
                 }
                 .frame(maxWidth: .infinity).disabled(model.busy)
-                Button("ON") { model.applyProxy() }
-                    .frame(maxWidth: .infinity)
-                    .disabled(model.busy || !model.proxyConfig.isUsable || model.proxyActive)
-                Button("オフ") { model.clearProxy() }
-                    .frame(maxWidth: .infinity)
-                    .disabled(model.busy || !model.proxyActive)
-            }
-
-            if !model.lastMessage.isEmpty {
-                ScrollView {
-                    Text(model.lastMessage)
-                        .font(.caption2.monospaced())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .textSelection(.enabled)
+                Button(model.proxyActive ? "OFF" : "ON") {
+                    if model.proxyActive { model.clearProxy() } else { model.applyProxy() }
                 }
-                .frame(maxHeight: 90)
-                .padding(6)
-                .background(Color.secondary.opacity(0.08), in: RoundedRectangle(cornerRadius: 6))
+                .frame(maxWidth: .infinity)
+                .disabled(model.busy || (!model.proxyActive && !model.proxyConfig.isUsable))
             }
         }
         .padding(14)
-    }
-
-    private var footer: some View {
-        HStack(spacing: 12) {
-            Button {
-                Task { await model.refreshFull() }
-            } label: {
-                Label { Text("更新") } icon: {
-                    Image(systemName: "arrow.clockwise").imageScale(.small)
-                }
-            }
-            .buttonStyle(.plain).font(.caption)
-            Button("再登録") { model.reregisterHelper() }.buttonStyle(.plain).font(.caption)
-            Spacer()
-            Button("設定") {
-                NSApp.activate(ignoringOtherApps: true)
-                openWindow(id: "proxy-settings")
-            }.buttonStyle(.plain).font(.caption)
-            Button("終了") { NSApp.terminate(nil) }.buttonStyle(.plain).font(.caption)
-        }
-        .padding(.horizontal, 14).padding(.vertical, 8)
     }
 
     private var cleanSessionStatus: String {
