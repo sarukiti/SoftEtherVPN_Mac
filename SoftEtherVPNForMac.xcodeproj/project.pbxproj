@@ -17,6 +17,7 @@
 		47EF8FB9F30577F5F51B0CBA /* HelperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5E42D1ADFE48F0242D81D /* HelperService.swift */; };
 		565822D922628C2736D3EC9A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C1695463FF3F75E90D5DF /* OnboardingView.swift */; };
 		5B09867F6C79AF6C3C3E5C85 /* io.github.sarukiti.softethervpn.helper.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7979A37CC2C44095985BC531 /* io.github.sarukiti.softethervpn.helper.plist */; };
+		656EA818215F1FCF15FEE447 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D72682E8AC41DA370A9C3ED /* Assets.xcassets */; };
 		714A6D7B7542258FA79BEAC7 /* SoftEtherVPNForMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762B49235712C2F27BDB6302 /* SoftEtherVPNForMacApp.swift */; };
 		717ECC4B54C475DD995D0881 /* SoftEtherVPNHelper in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = 4313CDFC02DB6000C733B09D /* SoftEtherVPNHelper */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		87E7E89427E13B3154F893E7 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37AAD945608CE6491997D2 /* main.swift */; };
@@ -65,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		0B41627A8FBBF5472C574213 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		0D72682E8AC41DA370A9C3ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B37AAD945608CE6491997D2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		1B71F44EBE7DE028290EF2E0 /* VPNHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNHelperProtocol.swift; sourceTree = "<group>"; };
 		1BA5E42D1ADFE48F0242D81D /* HelperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperService.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				B3616C5B4EAED8305A046A39 /* AppModel.swift */,
+				0D72682E8AC41DA370A9C3ED /* Assets.xcassets */,
 				5CDA5E32B03A7005ED0C1AEA /* CLIHandler.swift */,
 				F53C4594804F26339D357488 /* HelperClient.swift */,
 				FF37917EB474B98B0D4A8893 /* main.swift */,
@@ -168,6 +171,7 @@
 			buildConfigurationList = A94AB6A12FA391E4E0174068 /* Build configuration list for PBXNativeTarget "SoftEtherVPNForMac" */;
 			buildPhases = (
 				D66014D6B7E96FC1B0BC128A /* Sources */,
+				656963E95BBF27AD65882DD5 /* Resources */,
 				4455134BBA7CD0908A615B91 /* CopyFiles */,
 				520232F7F265058E03863653 /* Embed Dependencies */,
 			);
@@ -221,6 +225,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		656963E95BBF27AD65882DD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				656EA818215F1FCF15FEE447 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B789509140BE983DE8965BC3 /* Sources */ = {
