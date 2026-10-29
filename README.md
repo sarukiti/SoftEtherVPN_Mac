@@ -15,7 +15,8 @@ ON/OFF をメニューバーから行うアプリ。操作のたびにパスワ�
 - XPC は接続元の署名要件（アプリの bundle id + 証明書 CN）を検証して限定する。
 
 ### SoftEther のバイナリ
-`vpnclient` / `vpncmd` / `hamcore.se2` は自前でビルドした SoftEtherVPN から `build.sh` が
+SoftEtherVPN は submodule（`SoftEtherVPN/`、feth 対応を入れた [fork](https://github.com/sarukiti/SoftEtherVPN) の `master`）として取り込んでいる。
+`build.sh` がそれをビルドし、`vpnclient` / `vpncmd` / `hamcore.se2` を
 `Contents/Resources/` へコピーし、依存 dylib を `dylibbundler` で `Contents/Frameworks/` に同梱する。
 SoftEther は実行ファイルの隣に設定・ログ・ロックを書くため、ヘルパーは
 `/Library/Application Support/SoftEtherFethVPN/` にシンボリックリンクを張ってそこ経由で実行する
@@ -24,19 +25,24 @@ SoftEther は実行ファイルの隣に設定・ログ・ロックを書くた�
 
 ## ビルド & 初回セットアップ
 
-必要なもの: Xcode, [XcodeGen](https://github.com/yonaskolb/XcodeGen), dylibbundler（`brew install xcodegen dylibbundler`）、
-ビルド済みの [SoftEtherVPN](https://github.com/SoftEtherVPN/SoftEtherVPN)。
+必要なもの: Xcode, [XcodeGen](https://github.com/yonaskolb/XcodeGen), dylibbundler, SoftEther のビルド用に cmake と OpenSSL
+（`brew install xcodegen dylibbundler cmake openssl@3`）。
 
 ```sh
+# 0) submodule の取得（clone 時に --recursive を付けていれば不要）
+git submodule update --init --recursive
+
 # 1) 自己署名のコード署名証明書を作成（有料 Developer ID 不要）
 #    途中でログインパスワードおよび管理者パスワードを聞かれることがあります
 sh create-signing-cert.sh
 
-# 2) 署名付きビルド（SOFTETHER_BUILD は vpnclient/vpncmd/hamcore.se2 がある SoftEtherVPN の build ディレクトリ）
-SOFTETHER_BUILD="/path/to/SoftEtherVPN/build" sh build.sh
+# 2) 署名付きビルド（submodule の SoftEtherVPN も configure + make する）
+sh build.sh
 #    -> dist/SoftEtherFethVPN.app
 #    --install を付けると /Applications へのコピーまで行う:
-#    SOFTETHER_BUILD=... sh build.sh --install
+#    sh build.sh --install
+#    別の場所でビルドした SoftEtherVPN を使う場合は build ディレクトリを指定する:
+#    SOFTETHER_BUILD="/path/to/SoftEtherVPN/build" sh build.sh
 
 # 3) /Applications に配置して起動（SMAppService のシステムデーモン登録に必須）
 cp -R dist/SoftEtherFethVPN.app /Applications/

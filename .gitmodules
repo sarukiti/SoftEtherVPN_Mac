@@ -1,0 +1,4 @@
+[submodule "SoftEtherVPN"]
+	path = SoftEtherVPN
+	url = https://github.com/sarukiti/SoftEtherVPN.git
+	branch = master

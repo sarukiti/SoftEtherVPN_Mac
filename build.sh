@@ -39,13 +39,21 @@ cp -R "$APP" dist/
 echo "### SoftEtherVPN バイナリのコピー"
 RESOURCES_DIR="dist/SoftEtherFethVPN.app/Contents/Resources"
 mkdir -p "$RESOURCES_DIR"
-# SoftEtherVPN を自前でビルドした build ディレクトリ（vpnclient/vpncmd/hamcore.se2 が入っている場所）。
-# 環境ごとに違うため、環境変数 SOFTETHER_BUILD で指定する。
+# vpnclient/vpncmd/hamcore.se2 が入っている SoftEtherVPN の build ディレクトリ。
+# 未指定なら submodule（SoftEtherVPN/）を configure + make してそれを使う。
+# 別の場所でビルドしたものを使う場合は環境変数 SOFTETHER_BUILD で指定する。
 #   例: SOFTETHER_BUILD="$HOME/Git/SoftEtherVPN/build" sh build.sh
 if [ -z "$SOFTETHER_BUILD" ]; then
-  echo "!!! 環境変数 SOFTETHER_BUILD が未設定です。SoftEtherVPN の build ディレクトリを指定してください。"
-  echo "    例: SOFTETHER_BUILD=\"\$HOME/Git/SoftEtherVPN/build\" sh build.sh"
-  exit 1
+  if [ ! -f SoftEtherVPN/configure ]; then
+    echo "!!! submodule SoftEtherVPN/ が未取得です。先に:  git submodule update --init --recursive"
+    exit 1
+  fi
+  echo "### SoftEtherVPN (submodule) のビルド"
+  if [ ! -f SoftEtherVPN/build/Makefile ]; then
+    (cd SoftEtherVPN && ./configure)
+  fi
+  make -C SoftEtherVPN/build -j"$(sysctl -n hw.ncpu)"
+  SOFTETHER_BUILD="$(pwd)/SoftEtherVPN/build"
 fi
 if [ ! -f "$SOFTETHER_BUILD/vpnclient" ]; then
   echo "!!! '$SOFTETHER_BUILD' に vpnclient が見つかりません。SOFTETHER_BUILD のパスを確認してください。"
