@@ -25,4 +25,5 @@ let delegate = HelperDelegate()
 let listener = NSXPCListener(machServiceName: kHelperMachServiceName)
 listener.delegate = delegate
 listener.resume()
+FullTunnelWatchdog.start()
 dispatchMain()

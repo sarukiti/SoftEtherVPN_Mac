@@ -66,7 +66,8 @@ struct ProxySettingsView: View {
     private var proxyTab: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("プロキシ設定").font(.headline)
-            Text("現在: \(model.proxyDescription)").font(.caption).foregroundStyle(.secondary)
+            Text("現在: \(model.proxyDescription)").font(.caption)
+                .foregroundStyle(model.privileged.proxyFallbackDirect ? .yellow : .secondary)
 
             Picker("種類", selection: $proxyType) {
                 Text("HTTP").tag("http")

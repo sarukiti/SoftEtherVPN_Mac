@@ -116,7 +116,9 @@ struct MenuBarContentView: View {
                 Text("プロキシ").font(.subheadline)
                 Spacer()
                 Text(model.proxyDescription).font(.caption)
-                    .foregroundStyle(model.proxyActive ? .green : .secondary)
+                    .foregroundStyle(model.privileged.proxyFallbackDirect ? .yellow
+                                     : model.proxyActive ? .green : .secondary)
+                    .help(model.privileged.proxyFallbackDirect ? "プロキシに到達できないため直接接続中" : "")
             }
             // 保存済み設定があれば、再入力なしで ON / オフ を切り替えられる。
             if model.proxyConfig.isUsable {

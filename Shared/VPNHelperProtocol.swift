@@ -11,7 +11,7 @@ public let kHelperMachServiceName = "org.softether.feth.helper"
 public let kHelperPlistName = "org.softether.feth.helper.plist"
 
 /// アプリ／ヘルパーの版整合性チェック用。プロトコルを変えたら上げる。
-public let kHelperProtocolVersion = 3
+public let kHelperProtocolVersion = 1
 
 @objc public protocol VPNHelperProtocol {
     /// ヘルパーの稼働確認とプロトコル版の取得。

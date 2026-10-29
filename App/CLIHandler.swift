@@ -53,7 +53,7 @@ enum CLIHandler {
                 log("Session Established: \(status.sessionEstablished)")
                 log("Session Status: \(status.sessionStatus)")
                 log("Server: \(status.serverHost) (\(status.serverName))")
-                log("Proxy: \(status.proxyDescription)")
+                log("Proxy: \(status.proxyDescription)" + (status.proxyFallbackDirect ? " [unreachable, direct]" : ""))
             } catch {
                 log("特権状態取得失敗: \(error.localizedDescription)")
             }
