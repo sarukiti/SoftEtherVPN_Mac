@@ -97,7 +97,7 @@ final class AppModel: ObservableObject {
         // root が要るセッション状態（ヘルパーが有効な時のみ）
         if helper.registration == .enabled {
             do {
-                let v = try await helper.ping()
+                let v = try await helper.ping(timeout: 5)
                 helperDiag = "XPC OK (helper v\(v))"
                 if v < kHelperProtocolVersion {
                     // 登録済みヘルパーが古い（アプリだけ更新された）。自動で再登録を試行。
@@ -164,20 +164,15 @@ final class AppModel: ObservableObject {
         busy = true
         Task {
             defer { busy = false }
-            try? await helper.unregister()
-            helper.invalidate()
-            // unregister 直後の register は launchd の状態反映待ちで弾かれることがあるため少し待つ。
-            try? await Task.sleep(nanoseconds: 1_200_000_000)
             do {
-                try helper.register()
+                let v = try await helper.reregister()
                 helperState = helper.registration
-                lastMessage = "再登録: \(helperState)"
-                if helperState == .requiresApproval {
-                    lastMessage += "\nSystem Settings の「ログイン項目とバックグラウンドでの実行」で許可してください。"
-                    helper.openLoginItemsSettings()
-                } else {
-                    didPromptUpdate = false   // 解決したら次回の自動アラートを再び許可
-                }
+                lastMessage = "再登録: helper v\(v)"
+                didPromptUpdate = false   // 解決したら次回の自動アラートを再び許可
+            } catch HelperError.requiresApproval {
+                helperState = helper.registration
+                lastMessage = "再登録: System Settings の「ログイン項目とバックグラウンドでの実行」で許可してください。"
+                helper.openLoginItemsSettings()
             } catch {
                 lastMessage = "再登録失敗: \(error.localizedDescription)"
                 showHelperAlert(title: "再登録に失敗しました",

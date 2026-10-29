@@ -38,6 +38,28 @@ final class HelperClient {
         invalidate()
     }
 
+    /// 登録し直して、新しいヘルパーが応答するまで確かめる。応答したヘルパーの版を返す。
+    ///
+    /// 自己署名（Team ID なし）だと、BTM は起動制約（LWCR）をバイナリの cdhash で持つ。
+    /// アプリ更新でヘルパーが差し替わった後の 1 回目の register は、BTM が旧バイナリの記録を
+    /// 使い回すため "Launch Constraint Violation" で起動拒否される。launchd は約 10 秒後の
+    /// 再 spawn で LWCR 修復を要求し、BTM は新バイナリの記録を作るが、Team ID が無いと
+    /// ジョブに結び付けられず失敗する。その記録は残るので、修復後にもう一度
+    /// unregister → register すると新しい記録が使われて起動できる。
+    func reregister() async throws -> Int {
+        var lastError: Error = HelperError.proxyUnavailable
+        for attempt in 1...2 {
+            try? await unregister()
+            // unregister 直後の register は launchd の状態反映待ちで弾かれることがあるため少し待つ。
+            try? await Task.sleep(nanoseconds: 1_200_000_000)
+            try register()
+            if registration == .requiresApproval { throw HelperError.requiresApproval }
+            // 1 回目は LWCR 修復（拒否から約 10 秒後の再 spawn）が走るまで待つ
+            do { return try await ping(timeout: attempt == 1 ? 15 : 10) } catch { lastError = error }
+        }
+        throw lastError
+    }
+
     func openLoginItemsSettings() {
         SMAppService.openSystemSettingsLoginItems()
     }
@@ -88,6 +110,16 @@ final class HelperClient {
 
     func ping() async throws -> Int {
         try await call { helper, reply in helper.ping(reply: reply) }
+    }
+
+    /// launchd が spawn に失敗し続けていると XPC の応答が永久に返らないため、期限付きで ping する。
+    func ping(timeout: TimeInterval) async throws -> Int {
+        let timer = Task { [weak self] in
+            try await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+            self?.invalidate()   // 応答待ちの呼び出しをエラーで返させる
+        }
+        defer { timer.cancel() }
+        return try await ping()
     }
     func connect(account: String) async throws -> (Bool, String) {
         try await callBoolMsg { helper, reply in helper.connect(account: account, reply: reply) }
@@ -142,9 +174,11 @@ final class HelperClient {
 
 enum HelperError: LocalizedError {
     case proxyUnavailable
+    case requiresApproval
     var errorDescription: String? {
         switch self {
         case .proxyUnavailable: return "ヘルパーに接続できません（未登録/未承認の可能性）"
+        case .requiresApproval: return "System Settings でヘルパーの承認が必要です"
         }
     }
 }

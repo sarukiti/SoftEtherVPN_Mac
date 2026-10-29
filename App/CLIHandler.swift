@@ -21,46 +21,15 @@ enum CLIHandler {
         case "--reregister-helper":
             let service = SMAppService.daemon(plistName: kHelperPlistName)
             log("[CLI] 初期登録状態: status=\(service.status.rawValue)")
-            log("[CLI] ヘルパーの登録解除中...")
+            log("[CLI] ヘルパーを再登録中（差し替え直後は LWCR 修復待ちで最大 30 秒ほどかかります）...")
             do {
-                try await service.unregister()
-                log("[CLI] 登録解除完了")
+                let v = try await HelperClient().reregister()
+                log("[CLI] XPC ping 成功! ヘルパープロトコルバージョン: \(v)")
+                exit(0)
             } catch {
-                log("[CLI] 登録解除警告: \(error.localizedDescription)")
-            }
-            log("[CLI] launchd の反映待ち (1.2秒)...")
-            try? await Task.sleep(nanoseconds: 1_200_000_000)
-
-            log("[CLI] ヘルパーの新規登録中...")
-            do {
-                try service.register()
-                log("[CLI] 登録完了. 新ステータス: \(service.status.rawValue)")
-            } catch {
-                log("[CLI] 登録失敗: \(error.localizedDescription)")
+                log("[CLI] 再登録失敗: \(error.localizedDescription) (status=\(service.status.rawValue))")
                 exit(1)
             }
-
-            log("[CLI] XPC 疎通確認 (ping) を試行...")
-            try? await Task.sleep(nanoseconds: 800_000_000)
-            let client = HelperClient()
-            var pingSuccess = false
-            for attempt in 1...5 {
-                do {
-                    let v = try await client.ping()
-                    log("[CLI] XPC ping 成功! ヘルパープロトコルバージョン: \(v)")
-                    pingSuccess = true
-                    break
-                } catch {
-                    log("[CLI] ping 試行 \(attempt)/5 失敗: \(error.localizedDescription)")
-                    client.invalidate()
-                    try? await Task.sleep(nanoseconds: 800_000_000)
-                }
-            }
-            if !pingSuccess {
-                log("[CLI] ヘルパー疎通確認に失敗しました。")
-                exit(1)
-            }
-            exit(0)
 
         case "--ping-helper":
             let client = HelperClient()
