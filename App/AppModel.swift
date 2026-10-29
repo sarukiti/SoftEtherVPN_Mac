@@ -239,14 +239,24 @@ final class AppModel: ObservableObject {
         busy = true
         Task {
             defer { busy = false }
-            do {
-                let (ok, msg) = try await op()
-                lastMessage = "\(title): \(ok ? "OK" : "失敗")\n\(msg)"
-            } catch {
-                lastMessage = "\(title): エラー\n\(error.localizedDescription)"
-            }
+            let result: (Bool, String)
+            do { result = try await op() } catch { result = (false, error.localizedDescription) }
             await refreshFull()
+            report(title, result)
         }
+    }
+
+    /// 結果を lastMessage に残し、失敗した時だけアラートで知らせる。
+    private func report(_ title: String, _ result: (ok: Bool, msg: String)) {
+        lastMessage = "\(title): \(result.ok ? "OK" : "失敗")\n\(result.msg)"
+        guard !result.ok else { return }
+        NSApp.activate(ignoringOtherApps: true)
+        let a = NSAlert()
+        a.alertStyle = .warning
+        a.messageText = "\(title)に失敗しました"
+        a.informativeText = result.msg
+        a.addButton(withTitle: "OK")
+        a.runModal()
     }
 
     func connectAndFullTunnel() {
@@ -318,13 +328,12 @@ final class AppModel: ObservableObject {
         ProxyStore.saveEnabled(true)
         proxyConfig = cfg
         Task {
+            let result: (Bool, String)
             do {
-                let (ok, msg) = try await helper.setProxy(type: type, host: host, port: port, user: user, pass: pass, account: account)
-                lastMessage = "プロキシ設定: \(ok ? "OK" : "失敗")\n\(msg)"
-            } catch {
-                lastMessage = "プロキシ設定: エラー\n\(error.localizedDescription)"
-            }
+                result = try await helper.setProxy(type: type, host: host, port: port, user: user, pass: pass, account: account)
+            } catch { result = (false, error.localizedDescription) }
             await refreshFull()
+            report("プロキシ設定", result)
         }
     }
 
@@ -335,13 +344,12 @@ final class AppModel: ObservableObject {
         VpnStore.savePassword(pass)
         vpnConfig = cfg
         Task {
+            let result: (Bool, String)
             do {
-                let (ok, msg) = try await helper.setupVpnAccount(account: account, server: server, port: port, hub: hub, username: username, pass: pass, authType: authType)
-                lastMessage = "VPN設定: \(ok ? "OK" : "失敗")\n\(msg)"
-            } catch {
-                lastMessage = "VPN設定: エラー\n\(error.localizedDescription)"
-            }
+                result = try await helper.setupVpnAccount(account: account, server: server, port: port, hub: hub, username: username, pass: pass, authType: authType)
+            } catch { result = (false, error.localizedDescription) }
             await refreshFull()
+            report("VPN設定", result)
         }
     }
 
@@ -351,17 +359,16 @@ final class AppModel: ObservableObject {
         VpnStore.savePassword("")
         vpnConfig = VpnAccountConfig()
         Task {
+            let result: (Bool, String)
             do {
                 // vpnclient 側からもアカウントを削除して不整合をリセット
-                let (ok, msg) = try await helper.setupVpnAccount(
+                result = try await helper.setupVpnAccount(
                     account: account, server: "", port: "", hub: "",
                     username: "", pass: "", authType: "anonymous"
                 )
-                lastMessage = "VPN設定を消去: \(ok ? "成功" : "失敗")\n\(msg)"
-            } catch {
-                lastMessage = "VPN設定消去中のエラー: \(error.localizedDescription)"
-            }
+            } catch { result = (false, error.localizedDescription) }
             await refreshFull()
+            report("VPN設定の消去", result)
         }
     }
 
