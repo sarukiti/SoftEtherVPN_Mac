@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00F109CDED7AC55865502B71 /* ProxyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5C461147B1FD7873E1EDAF /* ProxyStore.swift */; };
+		01AF6FB5E40461E19DC9231B /* CLIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDA5E32B03A7005ED0C1AEA /* CLIHandler.swift */; };
+		0214066F18ACC25CE25038D4 /* MenuBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31CA71D7AC1DC8768C5D0D93 /* MenuBarContentView.swift */; };
+		0B434EDCE7A309E06876B137 /* VPNOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E5E7D3F55148B6C2EA48F4 /* VPNOperations.swift */; };
+		1AA492F6786ABEB1DD4426CE /* StatusProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2198A24BB71A218CD74DA958 /* StatusProbe.swift */; };
+		266F9A0243C084CEA32AD99C /* VPNHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B71F44EBE7DE028290EF2E0 /* VPNHelperProtocol.swift */; };
+		39687BE665A078E0F77DF9FD /* VPNHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B71F44EBE7DE028290EF2E0 /* VPNHelperProtocol.swift */; };
+		47EF8FB9F30577F5F51B0CBA /* HelperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5E42D1ADFE48F0242D81D /* HelperService.swift */; };
+		565822D922628C2736D3EC9A /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1C1695463FF3F75E90D5DF /* OnboardingView.swift */; };
+		5B09867F6C79AF6C3C3E5C85 /* io.github.sarukiti.softethervpn.helper.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7979A37CC2C44095985BC531 /* io.github.sarukiti.softethervpn.helper.plist */; };
+		714A6D7B7542258FA79BEAC7 /* SoftEtherVPNForMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762B49235712C2F27BDB6302 /* SoftEtherVPNForMacApp.swift */; };
+		717ECC4B54C475DD995D0881 /* SoftEtherVPNHelper in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = 4313CDFC02DB6000C733B09D /* SoftEtherVPNHelper */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		87E7E89427E13B3154F893E7 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B37AAD945608CE6491997D2 /* main.swift */; };
+		91AAF449BECFC5C150A2E5A6 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF37917EB474B98B0D4A8893 /* main.swift */; };
+		976D521628D200915F0FC230 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3616C5B4EAED8305A046A39 /* AppModel.swift */; };
+		9C2AE4EB16EDE0D960F773D5 /* HelperClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53C4594804F26339D357488 /* HelperClient.swift */; };
+		D6BEAD16D329E82BAFE417F8 /* ProxySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208965E7CBB393F85740950 /* ProxySettingsView.swift */; };
+		D972971DEF0A6579C9EE1959 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B41627A8FBBF5472C574213 /* Models.swift */; };
+		F2D870D801ABC8A06B20BF7D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B41627A8FBBF5472C574213 /* Models.swift */; };
+		F492E22F5D5EB03ED7962F57 /* ShellRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEA797E3B8BB6B734972138 /* ShellRunner.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B143C56E64D56E882BD31C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98224DFD602EBB82F820C2BC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 116D7882ED96985E58D897C4;
+			remoteInfo = SoftEtherVPNHelper;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4455134BBA7CD0908A615B91 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchDaemons;
+			dstSubfolderSpec = 1;
+			files = (
+				5B09867F6C79AF6C3C3E5C85 /* io.github.sarukiti.softethervpn.helper.plist in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		520232F7F265058E03863653 /* Embed Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchDaemons;
+			dstSubfolderSpec = 1;
+			files = (
+				717ECC4B54C475DD995D0881 /* SoftEtherVPNHelper in Embed Dependencies */,
+			);
+			name = "Embed Dependencies";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0B41627A8FBBF5472C574213 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		1B37AAD945608CE6491997D2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1B71F44EBE7DE028290EF2E0 /* VPNHelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNHelperProtocol.swift; sourceTree = "<group>"; };
+		1BA5E42D1ADFE48F0242D81D /* HelperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperService.swift; sourceTree = "<group>"; };
+		1BEA797E3B8BB6B734972138 /* ShellRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShellRunner.swift; sourceTree = "<group>"; };
+		2198A24BB71A218CD74DA958 /* StatusProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusProbe.swift; sourceTree = "<group>"; };
+		24E5E7D3F55148B6C2EA48F4 /* VPNOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNOperations.swift; sourceTree = "<group>"; };
+		31CA71D7AC1DC8768C5D0D93 /* MenuBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContentView.swift; sourceTree = "<group>"; };
+		4313CDFC02DB6000C733B09D /* SoftEtherVPNHelper */ = {isa = PBXFileReference; includeInIndex = 0; path = SoftEtherVPNHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		5208965E7CBB393F85740950 /* ProxySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxySettingsView.swift; sourceTree = "<group>"; };
+		5CDA5E32B03A7005ED0C1AEA /* CLIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIHandler.swift; sourceTree = "<group>"; };
+		762B49235712C2F27BDB6302 /* SoftEtherVPNForMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftEtherVPNForMacApp.swift; sourceTree = "<group>"; };
+		7979A37CC2C44095985BC531 /* io.github.sarukiti.softethervpn.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = io.github.sarukiti.softethervpn.helper.plist; sourceTree = "<group>"; };
+		8CFE31255D1499C753759FE1 /* SoftEtherVPNForMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftEtherVPNForMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D5C461147B1FD7873E1EDAF /* ProxyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyStore.swift; sourceTree = "<group>"; };
+		AA1C1695463FF3F75E90D5DF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B3616C5B4EAED8305A046A39 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		F53C4594804F26339D357488 /* HelperClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClient.swift; sourceTree = "<group>"; };
+		FF37917EB474B98B0D4A8893 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		4764B72EB7244ED083C08892 = {
+			isa = PBXGroup;
+			children = (
+				CB21E0EE41D8FE485DDD3BBA /* App */,
+				9057D83DCB5227C53AC975AC /* Helper */,
+				D375387ADFC9F8FC18D618C1 /* Shared */,
+				BF13F809BE02F61697851412 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9057D83DCB5227C53AC975AC /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				1BA5E42D1ADFE48F0242D81D /* HelperService.swift */,
+				7979A37CC2C44095985BC531 /* io.github.sarukiti.softethervpn.helper.plist */,
+				1B37AAD945608CE6491997D2 /* main.swift */,
+				1BEA797E3B8BB6B734972138 /* ShellRunner.swift */,
+				24E5E7D3F55148B6C2EA48F4 /* VPNOperations.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		BF13F809BE02F61697851412 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8CFE31255D1499C753759FE1 /* SoftEtherVPNForMac.app */,
+				4313CDFC02DB6000C733B09D /* SoftEtherVPNHelper */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CB21E0EE41D8FE485DDD3BBA /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B3616C5B4EAED8305A046A39 /* AppModel.swift */,
+				5CDA5E32B03A7005ED0C1AEA /* CLIHandler.swift */,
+				F53C4594804F26339D357488 /* HelperClient.swift */,
+				FF37917EB474B98B0D4A8893 /* main.swift */,
+				31CA71D7AC1DC8768C5D0D93 /* MenuBarContentView.swift */,
+				AA1C1695463FF3F75E90D5DF /* OnboardingView.swift */,
+				5208965E7CBB393F85740950 /* ProxySettingsView.swift */,
+				9D5C461147B1FD7873E1EDAF /* ProxyStore.swift */,
+				762B49235712C2F27BDB6302 /* SoftEtherVPNForMacApp.swift */,
+				2198A24BB71A218CD74DA958 /* StatusProbe.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D375387ADFC9F8FC18D618C1 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				0B41627A8FBBF5472C574213 /* Models.swift */,
+				1B71F44EBE7DE028290EF2E0 /* VPNHelperProtocol.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		116D7882ED96985E58D897C4 /* SoftEtherVPNHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2140E3E8C11F3BBF5523528 /* Build configuration list for PBXNativeTarget "SoftEtherVPNHelper" */;
+			buildPhases = (
+				B789509140BE983DE8965BC3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SoftEtherVPNHelper;
+			packageProductDependencies = (
+			);
+			productName = SoftEtherVPNHelper;
+			productReference = 4313CDFC02DB6000C733B09D /* SoftEtherVPNHelper */;
+			productType = "com.apple.product-type.tool";
+		};
+		C65114638766B10BF53B4A04 /* SoftEtherVPNForMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A94AB6A12FA391E4E0174068 /* Build configuration list for PBXNativeTarget "SoftEtherVPNForMac" */;
+			buildPhases = (
+				D66014D6B7E96FC1B0BC128A /* Sources */,
+				4455134BBA7CD0908A615B91 /* CopyFiles */,
+				520232F7F265058E03863653 /* Embed Dependencies */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				586CDA123ABDAC5C8D82235E /* PBXTargetDependency */,
+			);
+			name = SoftEtherVPNForMac;
+			packageProductDependencies = (
+			);
+			productName = SoftEtherVPNForMac;
+			productReference = 8CFE31255D1499C753759FE1 /* SoftEtherVPNForMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98224DFD602EBB82F820C2BC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					116D7882ED96985E58D897C4 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+					C65114638766B10BF53B4A04 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 8B96C672D7576797867BE83F /* Build configuration list for PBXProject "SoftEtherVPNForMac" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 4764B72EB7244ED083C08892;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BF13F809BE02F61697851412 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C65114638766B10BF53B4A04 /* SoftEtherVPNForMac */,
+				116D7882ED96985E58D897C4 /* SoftEtherVPNHelper */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B789509140BE983DE8965BC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47EF8FB9F30577F5F51B0CBA /* HelperService.swift in Sources */,
+				F2D870D801ABC8A06B20BF7D /* Models.swift in Sources */,
+				F492E22F5D5EB03ED7962F57 /* ShellRunner.swift in Sources */,
+				39687BE665A078E0F77DF9FD /* VPNHelperProtocol.swift in Sources */,
+				0B434EDCE7A309E06876B137 /* VPNOperations.swift in Sources */,
+				87E7E89427E13B3154F893E7 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D66014D6B7E96FC1B0BC128A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				976D521628D200915F0FC230 /* AppModel.swift in Sources */,
+				01AF6FB5E40461E19DC9231B /* CLIHandler.swift in Sources */,
+				9C2AE4EB16EDE0D960F773D5 /* HelperClient.swift in Sources */,
+				0214066F18ACC25CE25038D4 /* MenuBarContentView.swift in Sources */,
+				D972971DEF0A6579C9EE1959 /* Models.swift in Sources */,
+				565822D922628C2736D3EC9A /* OnboardingView.swift in Sources */,
+				D6BEAD16D329E82BAFE417F8 /* ProxySettingsView.swift in Sources */,
+				00F109CDED7AC55865502B71 /* ProxyStore.swift in Sources */,
+				714A6D7B7542258FA79BEAC7 /* SoftEtherVPNForMacApp.swift in Sources */,
+				1AA492F6786ABEB1DD4426CE /* StatusProbe.swift in Sources */,
+				266F9A0243C084CEA32AD99C /* VPNHelperProtocol.swift in Sources */,
+				91AAF449BECFC5C150A2E5A6 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		586CDA123ABDAC5C8D82235E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 116D7882ED96985E58D897C4 /* SoftEtherVPNHelper */;
+			targetProxy = 2B143C56E64D56E882BD31C8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11D7C0F1B2EDE14B770E0159 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sarukiti.softethervpn.helper;
+				PRODUCT_NAME = SoftEtherVPNHelper;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4DA5C2A7C39A2E804AFD031F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "SoftEther VPN for Mac";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sarukiti.softethervpn;
+				PRODUCT_NAME = "SoftEther VPN for Mac";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		7560E84400C5553F228C1F4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "SoftEther VPN Local";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7C920D7A4B2612CCA7A35F8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "SoftEther VPN Local";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		9C8087D747412B0C66DB2E4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "SoftEther VPN for Mac";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sarukiti.softethervpn;
+				PRODUCT_NAME = "SoftEther VPN for Mac";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F8B487BCF243F436F7AF259C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.sarukiti.softethervpn.helper;
+				PRODUCT_NAME = SoftEtherVPNHelper;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B96C672D7576797867BE83F /* Build configuration list for PBXProject "SoftEtherVPNForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C920D7A4B2612CCA7A35F8A /* Debug */,
+				7560E84400C5553F228C1F4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A94AB6A12FA391E4E0174068 /* Build configuration list for PBXNativeTarget "SoftEtherVPNForMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C8087D747412B0C66DB2E4B /* Debug */,
+				4DA5C2A7C39A2E804AFD031F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F2140E3E8C11F3BBF5523528 /* Build configuration list for PBXNativeTarget "SoftEtherVPNHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B487BCF243F436F7AF259C /* Debug */,
+				11D7C0F1B2EDE14B770E0159 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98224DFD602EBB82F820C2BC /* Project object */;
+}

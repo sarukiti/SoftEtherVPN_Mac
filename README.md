@@ -1,4 +1,4 @@
-# SoftEther feth VPN — macOS メニューバーアプリ
+# SoftEther VPN for Mac — macOS メニューバーアプリ
 
 SoftEther VPN Client（`vpnclient` / `vpncmd`）を macOS の feth 仮想 NIC で使い、フルトンネルの
 ON/OFF をメニューバーから行うアプリ。操作のたびにパスワードを聞かれないよう、
@@ -19,7 +19,7 @@ SoftEtherVPN は submodule（`SoftEtherVPN/`、feth 対応を入れた [fork](ht
 `build.sh` がそれをビルドし、`vpnclient` / `vpncmd` / `hamcore.se2` を
 `Contents/Resources/` へコピーし、依存 dylib を `dylibbundler` で `Contents/Frameworks/` に同梱する。
 SoftEther は実行ファイルの隣に設定・ログ・ロックを書くため、ヘルパーは
-`/Library/Application Support/SoftEtherFethVPN/` にシンボリックリンクを張ってそこ経由で実行する
+`/Library/Application Support/SoftEther VPN for Mac/` にシンボリックリンクを張ってそこ経由で実行する
 （バンドル内に root 所有ファイルができて署名が壊れるのを防ぐ）。
 `vpn_client.config` や `client_log/` もこのディレクトリにできる。
 
@@ -38,15 +38,15 @@ sh create-signing-cert.sh
 
 # 2) 署名付きビルド（submodule の SoftEtherVPN も configure + make する）
 sh build.sh
-#    -> dist/SoftEtherFethVPN.app
+#    -> dist/SoftEther VPN for Mac.app
 #    --install を付けると /Applications へのコピーまで行う:
 #    sh build.sh --install
 #    別の場所でビルドした SoftEtherVPN を使う場合は build ディレクトリを指定する:
 #    SOFTETHER_BUILD="/path/to/SoftEtherVPN/build" sh build.sh
 
 # 3) /Applications に配置して起動（SMAppService のシステムデーモン登録に必須）
-cp -R dist/SoftEtherFethVPN.app /Applications/
-open /Applications/SoftEtherFethVPN.app
+cp -R "dist/SoftEther VPN for Mac.app" /Applications/
+open "/Applications/SoftEther VPN for Mac.app"
 ```
 
 4. パネルの「ヘルパーを登録（初回のみ）」を押す → System Settings の
@@ -58,12 +58,12 @@ open /Applications/SoftEtherFethVPN.app
 アプリ本体に引数を渡すと GUI を出さずに操作できる（検証用）。
 
 ```sh
-APP=/Applications/SoftEtherFethVPN.app/Contents/MacOS/SoftEtherFethVPN
-$APP --status              # 登録状態・セッション・プロキシ・出口 IP
-$APP --connect             # 保存済み設定を同期して接続 + フルトンネル
-$APP --disconnect
-$APP --ping-helper
-$APP --reregister-helper   # アプリ更新後にヘルパーが起動しない時
+APP="/Applications/SoftEther VPN for Mac.app/Contents/MacOS/SoftEther VPN for Mac"
+"$APP" --status              # 登録状態・セッション・プロキシ・出口 IP
+"$APP" --connect             # 保存済み設定を同期して接続 + フルトンネル
+"$APP" --disconnect
+"$APP" --ping-helper
+"$APP" --reregister-helper   # アプリ更新後にヘルパーが起動しない時
 ```
 
 ## 前提

@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct SoftEtherFethVPNApp: App {
+struct SoftEtherVPNForMacApp: App {
     @StateObject private var model = AppModel()
 
     var body: some Scene {

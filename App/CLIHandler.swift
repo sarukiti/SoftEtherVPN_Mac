@@ -163,8 +163,8 @@ enum CLIHandler {
             exit(0)
 
         case "-h", "--help":
-            log("SoftEtherFethVPN コマンドラインツール")
-            log("使用法: SoftEtherFethVPN [オプション]")
+            log("SoftEther VPN for Mac コマンドラインツール")
+            log("使用法: \"SoftEther VPN for Mac\" [オプション]")
             log("")
             log("オプション:")
             log("  --reregister-helper   特権ヘルパーの登録解除と再登録を実行し、XPC疎通を確認")

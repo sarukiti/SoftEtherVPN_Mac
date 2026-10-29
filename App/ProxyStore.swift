@@ -6,7 +6,7 @@ import Foundation
 import Security
 
 enum ProxyStore {
-    private static let keychainService = "org.softether.feth.proxy"
+    private static let keychainService = "io.github.sarukiti.softethervpn.proxy"
     private static let keychainAccount = "proxy-password"
 
     // MARK: 設定値（UserDefaults）
@@ -60,7 +60,7 @@ enum ProxyStore {
 }
 
 enum VpnStore {
-    private static let keychainService = "org.softether.feth.vpn"
+    private static let keychainService = "io.github.sarukiti.softethervpn.vpn"
     private static let keychainAccount = "vpn-password"
 
     // MARK: 設定値（UserDefaults）

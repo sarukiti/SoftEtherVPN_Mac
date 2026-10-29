@@ -6,7 +6,7 @@ import SystemConfiguration
 
 /// 全 XPC 接続とウォッチドッグで共有する操作キュー。HelperService は接続ごとに
 /// 生成されるため、キューをインスタンスに持たせると接続間で操作が直列化されない。
-let helperOpsQueue = DispatchQueue(label: "org.softether.feth.helper.ops")
+let helperOpsQueue = DispatchQueue(label: "io.github.sarukiti.softethervpn.helper.ops")
 
 /// 新セッションの DHCP やり直し・OS 側で消された経路の張り直し・プロキシ不達時の直接接続切替を行う。
 /// ネットワーク変化（SCDynamicStore）と vpnclient の再接続（client_log）を契機に即座に動き、
@@ -14,7 +14,7 @@ let helperOpsQueue = DispatchQueue(label: "org.softether.feth.helper.ops")
 enum FullTunnelWatchdog {
     private static var timer: DispatchSourceTimer?
     /// 通知の受け口とデバウンス用。チェック本体は helperOpsQueue で他の操作と直列に走らせる。
-    private static let eventQueue = DispatchQueue(label: "org.softether.feth.helper.events")
+    private static let eventQueue = DispatchQueue(label: "io.github.sarukiti.softethervpn.helper.events")
     private static var pending: [DispatchWorkItem] = []
     private static var store: SCDynamicStore?
     private static var dirSource: DispatchSourceFileSystemObject?
@@ -67,7 +67,7 @@ enum FullTunnelWatchdog {
     /// Wi-Fi 切替・IP 付け直し・GW 変化。feth の DHCP 完了もここで拾い、経路をすぐ張り直す。
     private static func watchNetwork() {
         var ctx = SCDynamicStoreContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
-        guard let s = SCDynamicStoreCreate(nil, "org.softether.feth.helper" as CFString,
+        guard let s = SCDynamicStoreCreate(nil, "io.github.sarukiti.softethervpn.helper" as CFString,
                                            { _, _, _ in FullTunnelWatchdog.trigger("ネットワーク変化") }, &ctx) else {
             HLog("watchdog: SCDynamicStore の作成に失敗（ポーリングのみで動作）")
             return

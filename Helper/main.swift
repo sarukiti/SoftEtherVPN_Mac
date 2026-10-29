@@ -6,7 +6,7 @@ import Foundation
 /// 接続を許可するクライアント（メインアプリ）の署名要件。
 /// 自己署名証明書を使うため、アプリの bundle id と証明書 CN で限定する。
 let kClientCodeSigningRequirement =
-    "identifier \"org.softether.feth.client\" and certificate leaf[subject.CN] = \"SoftEther VPN Local\""
+    "identifier \"io.github.sarukiti.softethervpn\" and certificate leaf[subject.CN] = \"SoftEther VPN Local\""
 
 final class HelperDelegate: NSObject, NSXPCListenerDelegate {
     func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {

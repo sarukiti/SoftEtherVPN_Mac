@@ -9,7 +9,7 @@ enum VPNOperations {
     // ヘルパーバイナリの実行パスから Contents/ ディレクトリの URL を解決する
     static var bundleContentsURL: URL {
         let helperURL = Bundle.main.executableURL ?? URL(fileURLWithPath: CommandLine.arguments[0])
-        // helperURL: .../SoftEtherFethVPN.app/Contents/Library/LaunchDaemons/SoftEtherVPNHelper
+        // helperURL: .../SoftEther VPN for Mac.app/Contents/Library/LaunchDaemons/SoftEtherVPNHelper
         // 3回親に遡ると Contents/ になる
         return helperURL
             .deletingLastPathComponent() // LaunchDaemons/
@@ -18,7 +18,7 @@ enum VPNOperations {
     }
 
     // /tmp ではなく root 所有の永続ディレクトリに状態を退避（vpn-up が保存、vpn-down が参照）
-    static let stateDir = "/Library/Application Support/SoftEtherFethVPN"
+    static let stateDir = "/Library/Application Support/SoftEther VPN for Mac"
 
     // SoftEther はバイナリのパスから ExeDir / PidDir を解決するため、
     // アプリバンドル内のバイナリを直接叩くと Contents/Resources 内に root ファイルが作られ、

@@ -1,6 +1,6 @@
-name: SoftEtherFethVPN
+name: SoftEtherVPNForMac
 options:
-  bundleIdPrefix: org.softether.feth
+  bundleIdPrefix: io.github.sarukiti
   deploymentTarget:
     macOS: "14.0"
   createIntermediateGroups: true
@@ -20,23 +20,23 @@ settings:
 
 targets:
   # ---- メインアプリ（非特権・メニューバー常駐）----
-  SoftEtherFethVPN:
+  SoftEtherVPNForMac:
     type: application
     platform: macOS
     sources:
       - path: App
       - path: Shared
-      - path: Helper/org.softether.feth.helper.plist
+      - path: Helper/io.github.sarukiti.softethervpn.helper.plist
         buildPhase:
           copyFiles:
             destination: wrapper
             subpath: Contents/Library/LaunchDaemons
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: org.softether.feth.client
-        PRODUCT_NAME: SoftEtherFethVPN
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.sarukiti.softethervpn
+        PRODUCT_NAME: "SoftEther VPN for Mac"
         INFOPLIST_KEY_LSUIElement: YES
-        INFOPLIST_KEY_CFBundleDisplayName: "SoftEther VPN"
+        INFOPLIST_KEY_CFBundleDisplayName: "SoftEther VPN for Mac"
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
     dependencies:
       - target: SoftEtherVPNHelper
@@ -53,12 +53,12 @@ targets:
     sources:
       - path: Helper
         excludes:
-          - "org.softether.feth.helper.plist"
+          - "io.github.sarukiti.softethervpn.helper.plist"
       - path: Shared
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: org.softether.feth.helper
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.sarukiti.softethervpn.helper
         PRODUCT_NAME: SoftEtherVPNHelper
         # command line tool に Info.plist を __TEXT,__info_plist として埋め込み、
-        # コード署名 identifier を安定させる（= org.softether.feth.helper）。
+        # コード署名 identifier を安定させる（= io.github.sarukiti.softethervpn.helper）。
         CREATE_INFOPLIST_SECTION_IN_BINARY: YES

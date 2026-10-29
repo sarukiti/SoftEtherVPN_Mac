@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>org.softether.feth.helper</string>
+    <string>io.github.sarukiti.softethervpn.helper</string>
     <!-- アプリバンドル相対。Copy Files で Contents/Library/LaunchDaemons に配置される実行体。 -->
     <key>BundleProgram</key>
     <string>Contents/Library/LaunchDaemons/SoftEtherVPNHelper</string>
     <key>MachServices</key>
     <dict>
-        <key>org.softether.feth.helper</key>
+        <key>io.github.sarukiti.softethervpn.helper</key>
         <true/>
     </dict>
     <!-- このデーモンを所有するアプリ。System Settings の Login Items 表示に使われる。 -->
     <key>AssociatedBundleIdentifiers</key>
     <array>
-        <string>org.softether.feth.client</string>
+        <string>io.github.sarukiti.softethervpn</string>
     </array>
 </dict>
 </plist>

@@ -5,10 +5,10 @@
 import Foundation
 
 /// ヘルパーが公開する mach service 名。SMAppService の plist の MachServices と一致させる。
-public let kHelperMachServiceName = "org.softether.feth.helper"
+public let kHelperMachServiceName = "io.github.sarukiti.softethervpn.helper"
 
 /// SMAppService に登録する LaunchDaemon plist のファイル名。
-public let kHelperPlistName = "org.softether.feth.helper.plist"
+public let kHelperPlistName = "io.github.sarukiti.softethervpn.helper.plist"
 
 /// アプリ／ヘルパーの版整合性チェック用。プロトコルを変えたら上げる。
 public let kHelperProtocolVersion = 1
